@@ -1,8 +1,9 @@
-import os 
+import os
 import certifi
 from fastapi import FastAPI
-from mongoengine import connect
 from fastapi.staticfiles import StaticFiles
+from mongoengine import connect
+from routers.user import router as user
 from exceptions.custom_execption import *
 
 
@@ -18,11 +19,20 @@ app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-
-
+app.include_router(user)
 app.add_exception_handler(UserExistExecption, user_exist_exception_handler)
 app.add_exception_handler(UnauthorizedExecption, unauthorized_exception_handler)
 app.add_exception_handler(ServerErrorException, server_exception_handler)
 app.add_exception_handler(NotFoundException, not_found)
 app.add_exception_handler(CredentialsException, credentail_exception_handler)
 app.add_exception_handler(BadRequestException, bad_request_exception_handler)
+
+
+
+
+
+
+
+
+
+
