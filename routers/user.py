@@ -1,12 +1,13 @@
 import os
 import face_recognition
-from typing import List
-from fastapi import File, Form, Request, UploadFile, APIRouter
+from fastapi import File, Form, Request, UploadFile, APIRouter, status
 from database.crud import fetchone_document
 from database.schema import Users
+from utils.validate_bson import get_object_id
 from exceptions.custom_execption import NotFoundException
 from models.model import CreateUser
 from utils.file_func import create_directory_if_not_exists, save_image_file_to_user
+from utils.model_func import update_model
 from response.response import CustomResponse
 
 
@@ -14,21 +15,31 @@ from response.response import CustomResponse
 
 router = APIRouter(tags=["User"], prefix="/user")
 
-@router.post("/create")
-async def add_user(request:Request, user:CreateUser,  images: List[UploadFile] = File(...)):
+
+
+@router.get("/")
+async def get_users(request:Request):
+        
+    return CustomResponse("Get User Successfully")
+
+
+@router.post("/")
+async def add_user(request:Request, user:CreateUser):
 
     new_user = Users(firstname=user.firstname, lastname=user.lastname, matric_no=user.matric_no)
 
     new_user.save()
 
-    return CustomResponse("Added User Successfully")
+    return CustomResponse("Added User Successfully", status=status.HTTP_201_CREATED)
 
 
 
 @router.post("/add-image")
 async def add_image(user_id:str =Form(...), image: UploadFile = File(...)):
 
-    user = fetchone_document(Users, id=user_id)
+    user = await fetchone_document(Users, id=get_object_id(user_id))
+
+    print(user)
 
     if not user:
         raise NotFoundException("User does not exist")
@@ -39,8 +50,10 @@ async def add_image(user_id:str =Form(...), image: UploadFile = File(...)):
 
     image_path = await save_image_file_to_user(image.file, file_path_for_user)
 
-    loaded_image = face_recognition.load_image_file(image_path)
+    model_path = os.path.join(os.getcwd(), "model.pkl")
+
+
     
-    print(type(loaded_image))
+            
 
     return CustomResponse("Added Image To User Successfuly")

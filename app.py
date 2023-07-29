@@ -5,14 +5,18 @@ from fastapi.staticfiles import StaticFiles
 from mongoengine import connect
 from routers.user import router as user
 from exceptions.custom_execption import *
+from dotenv import load_dotenv
 
+load_dotenv()
 
 
 
 CERTIFICATE = os.path.join(os.path.dirname(certifi.__file__), "cacert.pem")
 
 
-connect(host=os.getenv("MONGODB_URL_ONLINE"), tls=True, tlsCAFile=CERTIFICATE)
+
+
+connect(host=os.getenv("MONGODB_URL"))
 
 
 app = FastAPI()

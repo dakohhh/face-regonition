@@ -16,7 +16,7 @@ async def get_next_filename(folder_path:str):
 
     files = os.listdir(folder_path)
 
-    max_file_number = max([int(file.split(".")[0]) for file in files if file.isdigit()], default=0)
+    max_file_number = max([int(file.split(".")[0]) for file in files])
 
     return max_file_number + 1
 
