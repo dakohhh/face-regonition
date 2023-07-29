@@ -9,7 +9,7 @@ class Users(Document):
 
     lastname = StringField(required=True, min_lenght=3, max_length=50)
 
-    matric_no = IntField(required=True)
+    matric_no = IntField(required=True, unique=True)
 
     is_blacklisted = BooleanField(required=True, default=False)
 
