@@ -11,8 +11,6 @@ from utils.model_func import update_model
 from response.response import CustomResponse
 
 
-
-
 router = APIRouter(tags=["User"], prefix="/user")
 
 
@@ -32,6 +30,32 @@ async def add_user(request:Request, user:CreateUser):
 
     return CustomResponse("Added User Successfully", status=status.HTTP_201_CREATED)
 
+
+
+
+@router.patch("/blacklist/{user_id}")
+async def blacklist_user(request:Request, user_id:str):
+    user = await fetchone_document(Users, id=get_object_id(user_id))
+
+    user.is_blacklisted = True
+
+    user.save()
+
+    return CustomResponse("Blacklisted User Successfully", status=status.HTTP_200_OK)
+
+
+
+
+@router.patch("/unblacklist/{user_id}")
+async def unblacklist_user(request:Request, user_id:str):
+    user = await fetchone_document(Users, id=get_object_id(user_id))
+
+    user.is_blacklisted = False
+
+    user.save()
+
+    return CustomResponse("Blacklisted User Successfully", status=status.HTTP_200_OK)
+    
 
 
 @router.post("/add-image")

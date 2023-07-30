@@ -7,6 +7,13 @@ from exceptions.custom_execption import BadRequestException
 
 
 
+IS_UNKNOWN = 0
+
+IS_KNOWN = 1
+
+IS_BLACKLISTED = 2
+
+
 class FaceEncoding():
 
     def __init__(self, id, firstname, lastname, is_blacklisted, encoding):
