@@ -1,6 +1,8 @@
 import os
 import io
 from fastapi import File, Form, Request, UploadFile, APIRouter, status
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
 from database.crud import fetchone_document
 from database.schema import Users
 from utils.validate import get_object_id, verify_image
@@ -14,11 +16,17 @@ from response.response import CustomResponse
 router = APIRouter(tags=["User"], prefix="/user")
 
 
+templates = Jinja2Templates(directory="templates")
+
 
 @router.get("/")
 async def get_users(request:Request):
+
+    users = [user.to_dict() for user in Users.objects.all()]
+    
+    context = {"request":request, "users":users}
         
-    return CustomResponse("Get User Successfully")
+    return templates.TemplateResponse("view.html", context)
 
 
 @router.post("/")
@@ -54,7 +62,7 @@ async def unblacklist_user(request:Request, user_id:str):
 
     user.save()
 
-    return CustomResponse("Blacklisted User Successfully", status=status.HTTP_200_OK)
+    return CustomResponse("Unblacklisted User Successfully", status=status.HTTP_200_OK)
     
 
 

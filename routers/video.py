@@ -64,7 +64,7 @@ def detect_faces(all_users:List[FaceEncoding]):
                 match = f"{targeted_user.firstname} {targeted_user.lastname}"
 
 
-                is_known = IS_KNOWN if not targeted_user.is_blacklisted else IS_BLACKLISTED
+                is_known = IS_KNOWN if targeted_user.is_blacklisted == False else IS_BLACKLISTED
 
             else:
                 match = "Unknown"
@@ -79,8 +79,8 @@ def detect_faces(all_users:List[FaceEncoding]):
             elif is_known == IS_UNKNOWN:
                 color = [0, 255, 255]
 
-            else:
-                color = [255, 0, 0]
+            elif is_known == IS_BLACKLISTED:
+                color = [0, 0, 255]
 
             cv2.rectangle(frame, top_left, bottom_right, color, FRAME_THICKNESS)
 

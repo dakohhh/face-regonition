@@ -1,0 +1,209 @@
+* {
+    font-family: 'Mulish', "Poppins",  sans-serif;
+}
+
+
+.font-size-sm {
+    font-size: 11.4px;
+}
+
+.font-size-md {
+    font-size: 14px;
+}
+
+.font-size-xmd {
+    font-size: 18px;
+}
+
+.font-size-lg {
+    font-size: 21.4px;
+}
+
+.font-size-xlg {
+    font-size: 23px;
+}
+
+.font-size-xxlg {
+    font-size: 30px;
+}
+
+/* ############################################## */
+
+.font-weight-sm {
+    font-weight: 400;
+}
+
+.font-weight-md {
+    font-weight: 500;
+}
+
+
+.font-weight-xmd {
+    font-weight: 600;
+}
+
+.font-weight-lg {
+    font-weight: 700;
+}
+
+.font-weight-xlg {
+    font-weight: 800;
+}
+
+.font-weight-xxlg {
+    font-weight: 900;
+}
+
+.line-height-sm{
+    line-height: 16px;
+}
+
+.line-height-md {
+    line-height: 20px;
+}
+
+.line-height-lg {
+    line-height: 24px;
+}
+
+.lbr-50{
+    margin-left: 50px;
+}
+
+.lbr-75{
+    margin-left: 50px;
+}
+
+.lbr-100{
+    margin-left: 50px;
+}
+
+
+.go-down-md{
+    margin-top: 21px;
+}
+
+
+.class-updown{
+    transition: transform 0.5s ease-in-out;
+}
+
+.class-updown:hover{
+    transform: translateY(-5px);
+}
+
+
+.join-assignment-contain{
+    margin-top: 120px;
+    width: 600px;
+    height: 250px;
+    border: 1.7px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 24px 24px;
+}
+
+
+.basic-btn{
+	background-color: #40196d;
+	color: white;
+	border: none;
+	padding: 10px 55px;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	border-radius: 15px;
+    letter-spacing: 1px;
+}
+
+.join-help{
+    margin-top: 70px;
+}
+
+
+.join-assignment-input{
+    border: 1.8px solid #e0e0e0;
+    outline: none;
+}
+
+
+
+.ass-details-contain{
+    padding: 20px 50px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.lecturer-name{
+    color: #5f6368;
+}
+
+.due-date{
+    margin-left: 300px;
+
+}
+
+
+
+.submit-ass-contain{
+
+    padding: 30px 40px;
+
+    /* border: 2px solid black; */
+    
+    border-radius: 8px;
+
+    box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+
+}
+
+
+.comment-lecturer-contain{
+    border: 2px solid black;
+
+}
+
+.add-assignment-btn{
+    text-decoration: none;
+    border: 1.9px solid #e0e0e0;
+	padding: 8px 55px;
+    border-radius: 8px;
+    background-color: #fff;
+	color: #40196d;
+    overflow: hidden;
+
+
+}
+
+ 
+
+.turn-in-btn{
+    text-decoration: none;
+    border: 1.9px solid #e0e0e0;
+	padding: 8px 55px;
+    border-radius: 8px;
+    background-color: #40196d;
+	color: #fff;
+
+}
+
+
+.assigment{
+	padding: 8px 15px;
+    border-radius: 8px;
+
+    border: 1.9px solid #e0e0e0;
+}
+
+
+@media screen and (max-width: 414px) {
+
+
+    .due-date{
+        margin-left: 7px;
+
+    }
+    
+
+
+}
