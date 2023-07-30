@@ -2,6 +2,7 @@ import pickle
 import face_recognition
 from typing import List
 from database.schema import Users
+from exceptions.custom_execption import BadRequestException
 
 
 
@@ -54,5 +55,29 @@ async def update_model(image_path:str, user:Users, model_path:str):
         with open(model_path, 'wb') as file:
 
             pickle.dump(encoding_model, file)
+
+
+
+def get_model(model_path:str) ->List[FaceEncoding]:
+
+    try:
+        with open(model_path, 'rb') as file:
+
+            encoding_model:List = pickle.load(file)
+
+        
+        return encoding_model
+
+
+    except FileNotFoundError:
+
+        raise BadRequestException("Model not found, please train model")
+
+
+
+    
+
+
+
 
 
