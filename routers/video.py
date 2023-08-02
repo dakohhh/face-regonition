@@ -1,5 +1,6 @@
 import os
 import cv2
+import numpy as np
 import face_recognition
 from typing import List
 from fastapi import APIRouter, Request
@@ -19,9 +20,13 @@ templates = Jinja2Templates(directory="templates")
 
 model = get_model(os.path.join(os.getcwd(), "tf_face_model.h5"))
 
+class_list = ["Wisdom", "Joshua"]
+
 def detect_faces(all_users):
 
     global model
+
+    global class_list
 
     FRAME_THICKNESS = 5
 
@@ -44,11 +49,12 @@ def detect_faces(all_users):
 
             grayscale_image = cv2.cvtColor(cropped_face, cv2.COLOR_BGR2GRAY)
 
+
             scaled_cropped_grayscale_image = cv2.resize(grayscale_image, (40, 40))
 
-            prediction = model.predict([scaled_cropped_grayscale_image])
+            prediction = model.predict(np.array([scaled_cropped_grayscale_image]))
 
-            match = "Wisdom"
+            match = class_list[np.argmax(prediction)]
 
             color = [0, 255, 0]
 

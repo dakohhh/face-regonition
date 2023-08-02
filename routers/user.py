@@ -10,7 +10,7 @@ from utils.validate import get_object_id, verify_image
 from exceptions.custom_execption import BadRequestException, NotFoundException
 from models.model import CreateUser
 from utils.file_func import create_directory_if_not_exists, save_image_file_to_user
-# from utils.model_func import update_model
+from utils.model_func import get_train_test_data
 from response.response import CustomResponse
 
 
@@ -94,5 +94,17 @@ async def add_image(user_id:str =Form(...), image:UploadFile = File(...)):
 
     # await update_model(image_path, user, model_path)
             
+
+    return CustomResponse("Added Image To User Successfuly")
+
+
+
+@router.get("/train-data")
+async def train(request:Request):
+
+    x_train, x_test, y_train, y_test = get_train_test_data(os.path.join(os.getcwd(), "static/model_data"))
+
+    print(y_train)
+    print(y_test)
 
     return CustomResponse("Added Image To User Successfuly")

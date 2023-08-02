@@ -1,5 +1,8 @@
-import pickle
 import os
+import cv2
+import json
+import numpy as np
+import face_recognition
 import tensorflow as tf
 from tensorflow import keras
 from sklearn.model_selection import train_test_split
@@ -31,7 +34,13 @@ class FaceEncoding():
 
 def get_train_test_data(path:str):
 
-    
+    X = []
+
+    y = []
+
+    class_dict = {}
+
+    count = 0
 
     for entry in os.scandir(path):
 
@@ -41,27 +50,39 @@ def get_train_test_data(path:str):
 
             print(class_id)
 
-
-    # for filename in os.listdir(os.path.join(os.getcwd(), "64c5783c513fe900cd712d52")):
-    
-    #     image = face_recognition.load_image_file(os.path.join(os.getcwd(), "64c5783c513fe900cd712d52", filename))
-
-    #     face_locations = face_recognition.face_locations(image)
-
-    #     img_cv2 = cv2.imread(os.path.join(os.getcwd(), f"64c5783c513fe900cd712d52/{filename}"))
-
-    #     top, right, bottom, left = face_locations[0]
-
-    #     cropped_face = img_cv2[top:bottom, left:right]
-
-    #     grayscale_image = cv2.cvtColor(cropped_face, cv2.COLOR_BGR2GRAY)
-
-    #     scaled_cropped_grayscale_image = cv2.resize(grayscale_image, (40, 40))
-
-    #     x.append(scaled_cropped_grayscale_image)
+            for inner_entry in os.scandir(entry.path):
             
-    #     y.append(1)
+                image = face_recognition.load_image_file(inner_entry.path)
 
+                face_locations = face_recognition.face_locations(image)
+            
+                img_cv2 = cv2.imread(inner_entry.path)
+
+                top, right, bottom, left = face_locations[0]
+
+                cropped_face = img_cv2[top:bottom, left:right]
+
+                grayscale_image = cv2.cvtColor(cropped_face, cv2.COLOR_BGR2GRAY)
+
+                scaled_cropped_grayscale_image = cv2.resize(grayscale_image, (40, 40))
+
+                X.append(scaled_cropped_grayscale_image)
+
+                y.append(count)
+
+            count += 1
+
+    
+    with open("class_dict.json", "wb") as f:
+        json.dump(class_dict, f)
+
+        
+
+    X = np.array(X)/ 255.0
+    
+    x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+    return x_train, x_test, y_train, y_test
 
 
 
@@ -70,18 +91,18 @@ def get_train_test_data(path:str):
 async def train_evaluate_update(lenght_of_user:int):
 
 
-    # model = tf.keras.models.Sequential([
+    model = tf.keras.models.Sequential([
 
-    #     tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(40, 40, 1)),
-    #     tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.Conv2D(32, (3, 3), activation='relu', input_shape=(40, 40, 1)),
+        tf.keras.layers.MaxPooling2D((2, 2)),
         
-    #     tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
-    #     tf.keras.layers.MaxPooling2D((2, 2)),
+        tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
+        tf.keras.layers.MaxPooling2D((2, 2)),
         
-    #     tf.keras.layers.Flatten(),
-    #     tf.keras.layers.Dense(64, activation='relu'),
-    #     tf.keras.layers.Dense(2, activation='softmax')
-    # ])
+        tf.keras.layers.Flatten(),
+        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dense(2, activation='softmax')
+    ])
 
 
 
