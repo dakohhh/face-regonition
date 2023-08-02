@@ -17,26 +17,11 @@ templates = Jinja2Templates(directory="templates")
 
 
 
-model = get_model(os.path.join(os.getcwd(), "model.pkl"))
+model = get_model(os.path.join(os.getcwd(), "tf_face_model.h5"))
 
-known_faces = [face_obj.encoding for face_obj in model]
-
-known_names = [f"{face_obj.firstname} {face_obj.lastname}" for face_obj in model]
-
-known_ids = [str(face_obj.id) for face_obj in model]
-    
-known_is_blacklisted = [face_obj.is_blacklisted for face_obj in model]
-
-
-def detect_faces(all_users:List[FaceEncoding]):
+def detect_faces(all_users):
 
     global model
-
-    global known_faces
-
-    global known_names
-
-    global known_is_blacklisted
 
     FRAME_THICKNESS = 5
 
@@ -50,41 +35,26 @@ def detect_faces(all_users:List[FaceEncoding]):
 
         locations = face_recognition.face_locations(frame)
     
-        encodings = face_recognition.face_encodings(frame, locations)
+        for face_location in locations:
 
-        for face_encoding, face_location in zip(encodings, locations):
-        
-            results = face_recognition.compare_faces(known_faces, face_encoding, 0.5)
+            top, right, bottom, left = face_location
 
-            if True in results:
-                user_id_detect = known_ids[results.index(True)]
-
-                targeted_user:Users = next((user for user in all_users if str(user.id) == user_id_detect), None)
-
-                match = f"{targeted_user.firstname} {targeted_user.lastname}"
+            cropped_face = frame[top:bottom, left:right]
 
 
-                is_known = IS_KNOWN if targeted_user.is_blacklisted == False else IS_BLACKLISTED
+            grayscale_image = cv2.cvtColor(cropped_face, cv2.COLOR_BGR2GRAY)
 
-            else:
-                match = "Unknown"
-                is_known = IS_UNKNOWN
+            scaled_cropped_grayscale_image = cv2.resize(grayscale_image, (40, 40))
 
-            top_left = (face_location[3], face_location[0])
-            bottom_right = (face_location[1], face_location[2])
+            prediction = model.predict([scaled_cropped_grayscale_image])
 
-            if is_known == IS_KNOWN:
-                color = [0, 255, 0]
+            match = "Wisdom"
 
-            elif is_known == IS_UNKNOWN:
-                color = [0, 255, 255]
+            color = [0, 255, 0]
 
-            elif is_known == IS_BLACKLISTED:
-                color = [0, 0, 255]
+            cv2.rectangle(frame, (left, top), (right, bottom), color, FRAME_THICKNESS)
 
-            cv2.rectangle(frame, top_left, bottom_right, color, FRAME_THICKNESS)
-
-            adjust_text_size(frame, match, face_location, is_known)
+            adjust_text_size(frame, match, face_location, IS_KNOWN)
 
 
 
@@ -103,6 +73,9 @@ def detect_faces(all_users:List[FaceEncoding]):
 @router.get("/")
 async def read_root(request: Request):
     return templates.TemplateResponse("video.html", {"request": request})
+
+
+
 
 
 @router.get('/feed')

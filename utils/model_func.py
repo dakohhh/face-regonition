@@ -1,9 +1,9 @@
 import pickle
-import face_recognition
+import tensorflow as tf
+from tensorflow import keras
 from typing import List
 from database.schema import Users
 from exceptions.custom_execption import BadRequestException
-
 
 
 
@@ -26,59 +26,47 @@ class FaceEncoding():
 
 
 
-async def get_face_encodings_and_name(image_path:str, user:Users):
 
-    image = face_recognition.load_image_file(image_path)
-    
-    encoding = face_recognition.face_encodings(image, model="hog")[0]
-        
-    return FaceEncoding(user.id, user.firstname, user.lastname, user.is_blacklisted, encoding)
+
+async def train_and_evaluate_model(model):
+    pass
 
 
 
-async def update_model(image_path:str, user:Users, model_path:str):
-    try:
+# async def update_model(image_path:str, user:Users, model_path:str):
+#     try:
 
-        with open(model_path, 'rb') as file:
+#         with open(model_path, 'rb') as file:
 
-            encoding_model:List = pickle.load(file)
+#             encoding_model:List = pickle.load(file)
 
-            _ = await get_face_encodings_and_name(image_path, user)
+#             _ = await get_face_encodings_and_name(image_path, user)
 
-        encoding_model.append(_)
+#         encoding_model.append(_)
 
-        with open(model_path, 'wb') as file:
+#         with open(model_path, 'wb') as file:
 
-            pickle.dump(encoding_model, file)
+#             pickle.dump(encoding_model, file)
 
-    except:
+#     except:
 
-        encoding_model = []
+#         encoding_model = []
 
-        _ = await get_face_encodings_and_name(image_path, user)
+#         _ = await get_face_encodings_and_name(image_path, user)
 
-        encoding_model.append(_)
+#         encoding_model.append(_)
 
-        with open(model_path, 'wb') as file:
+#         with open(model_path, 'wb') as file:
 
-            pickle.dump(encoding_model, file)
-
-
-
-def get_model(model_path:str) ->List[FaceEncoding]:
-
-    try:
-        with open(model_path, 'rb') as file:
-
-            encoding_model:List = pickle.load(file)
-
-        
-        return encoding_model
+#             pickle.dump(encoding_model, file)
 
 
-    except FileNotFoundError:
 
-        raise BadRequestException("Model not found, please train model")
+def get_model(model_path:str) -> keras.Sequential:
+
+    loaded_model = keras.models.load_model(model_path)
+
+    return loaded_model
 
 
 

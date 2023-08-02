@@ -1,5 +1,6 @@
 import os
 import io
+import json
 from fastapi import File, Form, Request, UploadFile, APIRouter, status
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
@@ -9,7 +10,7 @@ from utils.validate import get_object_id, verify_image
 from exceptions.custom_execption import BadRequestException, NotFoundException
 from models.model import CreateUser
 from utils.file_func import create_directory_if_not_exists, save_image_file_to_user
-from utils.model_func import update_model
+# from utils.model_func import update_model
 from response.response import CustomResponse
 
 
@@ -91,7 +92,7 @@ async def add_image(user_id:str =Form(...), image:UploadFile = File(...)):
 
     model_path = os.path.join(os.getcwd(), "model.pkl")
 
-    await update_model(image_path, user, model_path)
+    # await update_model(image_path, user, model_path)
             
 
     return CustomResponse("Added Image To User Successfuly")
