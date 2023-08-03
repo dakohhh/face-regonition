@@ -1,6 +1,7 @@
 import os
 import cv2
 import numpy as np
+import asyncio
 import face_recognition
 from typing import List
 from fastapi import APIRouter, Request
@@ -16,13 +17,11 @@ router = APIRouter(tags=["Video"], prefix="/video")
 templates = Jinja2Templates(directory="templates")
 
 
-
-
-model = get_model(os.path.join(os.getcwd(), "tf_face_model.h5"))
+model = asyncio.create_task(get_model(os.path.join(os.getcwd(), "tf_face_model.h5")))
 
 class_list = ["Wisdom", "Joshua"]
 
-def detect_faces(all_users):
+async def detect_faces(all_users):
 
     global model
 

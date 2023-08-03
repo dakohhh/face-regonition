@@ -79,7 +79,7 @@ async def get_train_test_data(path:str) -> tuple:
 
 
 
-def get_class_dict(path:str="class_dict.json")-> Union[dict, list]:
+def get_class_dict(path:str=os.path.join(os.getcwd(), "class_dict.json"))-> Union[dict, list]:
 
     with open(path, "r") as json_file:
         class_dict = json.load(json_file)
@@ -87,7 +87,7 @@ def get_class_dict(path:str="class_dict.json")-> Union[dict, list]:
     return class_dict
 
 
-async def train_evaluate_update(lenght_of_user:int, path:str, ):
+async def train_evaluate_update(lenght_of_user:int, path:str, path_to_save_model:str=os.path.join(os.getcwd(), "tf_face_model.h5")):
 
     _train_test_task = asyncio.create_task(get_train_test_data(path))
 
@@ -112,14 +112,14 @@ async def train_evaluate_update(lenght_of_user:int, path:str, ):
 
     model.compile(optimizer="adam", loss="sparse_categorical_crossentropy", metrics=["accuracy"])
 
-
     x_train, x_test, y_train, y_test = await _train_test_task
 
     model.fit(x_train, y_train, epochs=30, batch_size=32)
 
     test_loss, test_acc = model.evaluate(x_test, y_test)
 
-    
+    model.save(path_to_save_model)
+
     return (test_loss, test_acc)
 
 
