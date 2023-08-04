@@ -29,3 +29,12 @@ async def fetchall_documents(klass:Type[Document], *args, **kwargs)-> List[Users
     
     except Exception as e:
         raise ServerErrorException(str(e))
+
+
+
+async def fetchall(klass:Type[Document]) ->Union[List[Users], None]:
+    try:
+        return klass.objects().all()
+     
+    except Exception as e:
+        raise ServerErrorException(str(e))

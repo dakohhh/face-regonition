@@ -79,7 +79,7 @@ async def get_train_test_data(path:str) -> tuple:
 
 
 
-def get_class_dict(path:str=os.path.join(os.getcwd(), "class_dict.json"))-> Union[dict, list]:
+async def get_class_dict(path:str=os.path.join(os.getcwd(), "class_dict.json"))-> Union[dict, list]:
 
     with open(path, "r") as json_file:
         class_dict = json.load(json_file)
@@ -91,7 +91,7 @@ async def train_evaluate_update(lenght_of_user:int, path:str, path_to_save_model
 
     _train_test_task = asyncio.create_task(get_train_test_data(path))
 
-    lenght_of_class_dict = len(get_class_dict())
+    lenght_of_class_dict = len(await get_class_dict())
 
 
     print("loaded test and training data.......")
@@ -130,6 +130,8 @@ async def get_model(model_path:str) -> keras.Sequential:
     loaded_model = keras.models.load_model(model_path)
 
     return loaded_model
+
+
 
 
 

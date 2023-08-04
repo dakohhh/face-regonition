@@ -14,7 +14,7 @@ def get_object_id(id:str):
     
 
 
-async def verify_image(image_bytes:bytes):
+def verify_image(image_bytes:bytes):
     try:
         im  = Image.frombytes('RGBA', (128,128), image_bytes, 'raw')
 

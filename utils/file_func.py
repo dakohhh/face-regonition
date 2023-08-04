@@ -1,18 +1,10 @@
 import os
-import shutil
+import cv2
 from typing import BinaryIO
 
 
 
-async def create_directory_if_not_exists(directory_path):
-    if not os.path.exists(directory_path):
-        os.makedirs(directory_path)
-
-
-
-
-
-async def get_next_filename(folder_path:str):
+def get_next_filename(folder_path:str):
 
     files = os.listdir(folder_path)
 
@@ -26,13 +18,10 @@ async def get_next_filename(folder_path:str):
 
 
 
-async def save_image_file_to_user(image:BinaryIO, path:str):
+def save_image_file_to_user(image, path:str):
 
-    image_name = await get_next_filename(path)
+    image_name = get_next_filename(path)
 
     image_path = os.path.join(path, f"{image_name}.jpg")
 
-    with open(image_path, "wb") as f:
-        shutil.copyfileobj(image, f)
-
-    return image_path
+    cv2.imwrite(image_path, image)

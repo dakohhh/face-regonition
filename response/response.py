@@ -4,17 +4,6 @@ from fastapi import Request
 from ast import literal_eval
 
 
-def customResponse(status:int, msg:str="" , success=True, data=None,):
-
-    return JSONResponse(
-        status_code=status,
-        content={
-        "status":status,
-        "msg": msg,
-        "success": success,
-        "data": data if data != None else None
-        }
-    )
 
 
 

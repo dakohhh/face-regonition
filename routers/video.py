@@ -8,9 +8,8 @@ from fastapi import APIRouter, Request
 from fastapi.responses import StreamingResponse
 from fastapi.templating import Jinja2Templates
 from database.schema import Users
-from utils.model_func import get_model, FaceEncoding, IS_KNOWN, IS_BLACKLISTED, IS_UNKNOWN
+from utils.model_func import get_model, get_class_dict, FaceEncoding, IS_KNOWN, IS_BLACKLISTED, IS_UNKNOWN
 from utils.video_func import adjust_text_size
-
 
 router = APIRouter(tags=["Video"], prefix="/video")
 
@@ -19,13 +18,17 @@ templates = Jinja2Templates(directory="templates")
 
 model = asyncio.create_task(get_model(os.path.join(os.getcwd(), "tf_face_model.h5")))
 
-class_list = ["Wisdom", "Joshua"]
+class_list = asyncio.create_task(get_class_dict())
 
 async def detect_faces(all_users):
 
     global model
 
     global class_list
+
+    model = await model
+
+    class_list = await class_list
 
     FRAME_THICKNESS = 5
 
@@ -84,7 +87,7 @@ async def read_root(request: Request):
 
 
 @router.get('/feed')
-def video_feed():
+async def video_feed():
     all_users = Users.objects.all()
 
     return StreamingResponse(detect_faces(all_users), media_type='multipart/x-mixed-replace; boundary=frame')

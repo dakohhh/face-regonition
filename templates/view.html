@@ -32,67 +32,129 @@
         </nav>
         
 
+    
+
+
         <div class="container">
 
-            <div>
-                <div class="go-down-md">
-                    <button class="go-down-md">Add User</button>
+            <div class="go-down-md"></div>
+
+            <div class="row ">
+                <div class="col-lg-8 order-0 order-lg-0">
+                    <div class="ass-details-contain">
+
+
+                        <div class="go-down-md">
+                            <button class="go-down-md btn btn-success">Add User</button>
+        
+                        </div>
+
+
+                        <table class="go-down-md table table-hover">
+                            <thead>
+                                <tr>
+                                  <th scope="col">ID</th>
+                                  <th scope="col">First Name</th>
+                                  <th scope="col">Last Name</th>
+                                  <th scope="col">Matric No</th>
+                                  <th scope="col">Image Count</th>
+                                  <th scope="col">#</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for user in users %}
+                                <tr>
+                                  <th scope="row">{{users.index(user) + 1}}</th>
+                                  <td>{{user.firstname}}</td>
+                                  <td>{{user.lastname }}</td>
+                                  <td>{{user.matric_no }}</td>
+                                  <td>3</td>
+                                  <td><button>+</button></td>
+                                </tr>
+                                {% endfor %}
+        
+                              </tbody>
+                        </table>
+
+
+                    </div>
+
 
                 </div>
 
+            
+                <div class="col-lg-4 order-1 order-lg-1">
+                    <div class="submit-ass-contain">
 
-                <table class="go-down-md table table-hover">
-                    <thead>
-                        <tr>
-                          <th scope="col">ID</th>
-                          <th scope="col">First Name</th>
-                          <th scope="col">Last Name</th>
-                          <th scope="col">Matric No</th>
-                          <th scope="col">Image Count</th>
-                          <th scope="col">#</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {% for user in users %}
-                        <tr>
-                          <th scope="row">{{users.index(user) + 1}}</th>
-                          <td>{{user.firstname}}</td>
-                          <td>{{user.lastname }}</td>
-                          <td>{{user.matric_no }}</td>
-                          <td>3</td>
-                          <td><button>+</button></td>
-                        </tr>
-                        {% endfor %}
-
-                      </tbody>
-                </table>
-            </div>
-
-
-            <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered">
-                    <div class="modal-content">
-    
-    
-                        <div class="modal-body">
-                            <div class="text-center">
-                                <img src="img/check.png" width="70" height="70">
-                            </div>
-    
-                            <div class="pay-success-info text-center">
-                                <h2 class="go-down-sm">Submitted</h2>
-    
-                                <p class="go-down-md reciept-no">Your work has been analysed and  approved for submission</p>
-    
-                            </div>
-    
-    
+                        <div class="">
+                            <h4 class="text-center">Your Work</h4>
                         </div>
-                    
+
+                        <div class="go-down-md"></div>
+
+                        <form>
+                            <div class="mb-3">
+                              <label for="exampleInputEmail1" class="form-label">Name</label>
+                              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                            </div>
+                            <div class="mb-3">
+                              <label for="exampleInputPassword1" class="form-label">Matric No</label>
+                              <input type="number" class="form-control" id="exampleInputPassword1">
+                            </div>
+                        </form>
+
+                   
+                        <div id="assigment-field">
+                            
+
+                        </div>
+
+
+                        <div class="row go-down-md">
+                            <input type="file" id="file-upload" style="display: none;">
+                            
+                            <button type="file" id="add-assignment-btn" class="add-assignment-btn font-weight-xmd prm-color">
+                                <i class="fa-solid fa-plus"></i> &nbsp;
+                                Add assignment
+                            </button>
+                        </div>
+
+                        <div class="go-down-md"></div>
+
+                        <div class="row">
+
+                            <button id="turn-in" class="turn-in-btn font-weight-xmd" disabled>Turn in</button>
+                        </div>
+
+                    </div>
+
+                    <br>
+                    <br>
+
+
+                </div>
+
+              
+
+                <div class="modal fade" id="staticBackdrop2" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body">
+                                <div class="text-center">
+                                    <img id="plag_suc_or_fail_img" src="" width="70" height="70">
+                                </div>
+                                <div class="pay-success-info text-center">
+                                    <h2 id="plag_success_fail_info" class="go-down-sm"></h2>
+                                    <p id="plag_success_fail_message" class="go-down-md reciept-no"></p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+                
 
+
+            </div>
         </div>
     
 
