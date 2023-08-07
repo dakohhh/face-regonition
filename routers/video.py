@@ -56,6 +56,11 @@ async def detect_faces(all_users):
 
             prediction = model.predict(np.array([scaled_cropped_grayscale_image]))
 
+            match_id =  class_list[np.argmax(prediction)]
+
+            firstname, lastname = next(((user.firstname, user.lastname) for user in all_users if str(user.id) == match_id), None)
+
+            print(firstname, lastname)
             match = class_list[np.argmax(prediction)]
 
             color = [0, 255, 0]
