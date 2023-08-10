@@ -53,21 +53,13 @@
 
                         <div class="row">
                             <div class="col">
-                                <button class="add-user-btn font-weight-lg bg-color-green"><i class="fa-solid fa-plus"></i> Add User</button>
-                
-                                
-                            </div>
+                                <button class="add-user-btn font-weight-lg bg-color-green" data-bs-toggle="modal" data-bs-target="#addUserModal"><i class="fa-solid fa-plus"></i> Add User</button>
 
-                            <div class="col">
-
-                                
                             </div>
 
                         </div>
 
                         
-
-
                         <table class="go-down-md table table-hover">
                             <thead>
                                 <tr>
@@ -150,6 +142,56 @@
                     <br>
 
 
+                </div>
+
+
+
+                <div class="modal fade" id="addUserModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-body">
+
+
+                                <div class="add-user-modal-content">
+
+                                    <div class="text-center font-size-lg font-weight-lg">
+                                        Add User
+                                    </div>
+
+                                    
+                                    <div class="go-dowm-sm"></div>
+                                    
+                                    <form>
+                                        <div class="mb-3">
+                                          <label for="name" class="form-label">Name</label>
+                                          <input type="text" class="form-control" id="name" aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <label for="matric_no" class="form-label">Matric No</label>
+                                            <input type="number" class="form-control" id="matric_no" aria-describedby="emailHelp">
+                                        </div>
+
+                                        <div class="mb-3">
+                                          <label for="image" class="form-label">Image of student</label>
+                                          <input type="file" class="form-control" id="image" accept="image/*">
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <button type="submit" id="turn-in" class="turn-in-btn font-weight-xmd"><i class="fa-solid fa-bolt"></i> Train</button>
+
+                                        </div>
+                                        
+                                        
+                                    </form>
+
+
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
               

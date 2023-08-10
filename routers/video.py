@@ -58,10 +58,9 @@ async def detect_faces(all_users):
 
             match_id =  class_list[np.argmax(prediction)]
 
-            firstname, lastname = next(((user.firstname, user.lastname) for user in all_users if str(user.id) == match_id), None)
+            firstname, lastname, is_blacklisted = next(((user.firstname, user.lastname, user.is_blacklisted) for user in all_users if str(user.id) == match_id), None)
 
-            print(firstname, lastname)
-            match = class_list[np.argmax(prediction)]
+            match = f"{firstname} {lastname}"
 
             color = [0, 255, 0]
 

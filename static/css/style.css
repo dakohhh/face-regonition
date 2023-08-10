@@ -305,8 +305,15 @@
 	100% {
 	  background-position: 200px;
 	}
-  }
+}
 
+
+
+
+
+.add-user-modal-content{
+    padding : 30px;
+}
 
 
 
