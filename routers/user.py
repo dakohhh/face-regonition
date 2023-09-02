@@ -39,6 +39,8 @@ async def get_users(request:Request):
     if len(users) > len(class_list):
     
         needs_train = True
+
+    print(needs_train)
     
     
     context = {"request":request, "users":users, "needs_train": needs_train}
